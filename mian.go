@@ -1,17 +1,12 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"log"
-	"net/http"
+	"Q-BLOG/model"
+	"Q-BLOG/routes"
 )
 
 func main() {
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
-	log.Fatal(r.Run())
+	//引用数据库
+	model.InitDb()
+	routes.InitRouter()
 }
