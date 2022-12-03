@@ -23,9 +23,6 @@ func AddUser(c *gin.Context) {
 	if code == errcode.SUCCESS {
 		model.CreateUser(&data)
 	}
-	if code == errcode.ERROR_USERNAME {
-		code = errcode.ERROR_USERNAME
-	}
 	c.JSON(http.StatusOK, gin.H{
 		"status": code,
 		"data":   data,
