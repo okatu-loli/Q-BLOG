@@ -5,6 +5,7 @@ import (
 	"Q-BLOG/utils/errcode"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 var code int
@@ -36,7 +37,25 @@ func AddUser(c *gin.Context) {
 
 // GetUsers 查询用户列表
 func GetUsers(c *gin.Context) {
+	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
+	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
 
+	switch {
+	case pageSize >= 100:
+		pageSize = 100
+	case pageSize <= 0:
+		pageSize = 10
+	}
+
+	if pageNum == 0 {
+		pageNum = 1
+	}
+	data := model.GetUsers(pageSize, pageNum)
+	c.JSON(http.StatusOK, gin.H{
+		"status": code,
+		"data":   data,
+		"code":   errcode.GetErrMsg(code),
+	})
 }
 
 // EditUser 编辑用户
