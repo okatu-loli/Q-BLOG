@@ -1,4 +1,4 @@
-package error
+package errcode
 
 const (
 	SUCCESS = 200

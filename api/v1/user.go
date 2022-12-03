@@ -1,17 +1,35 @@
 package v1
 
 import (
+	"Q-BLOG/model"
+	"Q-BLOG/utils/errcode"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
+
+var code int
 
 // 查询用户是否存在
 func userExist(c *gin.Context) {
-	//
+
 }
 
 // AddUser 添加用户
 func AddUser(c *gin.Context) {
-
+	var data model.User
+	_ = c.ShouldBindJSON(&data)
+	code = model.CheckUser(data.Username)
+	if code == errcode.SUCCESS {
+		model.CreateUser(&data)
+	}
+	if code == errcode.ERROR_USERNAME {
+		code = errcode.ERROR_USERNAME
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status": code,
+		"data":   data,
+		"code":   errcode.GetErrMsg(code),
+	})
 }
 
 // 查询单个用户
