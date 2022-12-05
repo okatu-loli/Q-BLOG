@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-var code int
+var msg int
 
 // 查询用户是否存在
 func userExist(c *gin.Context) {
@@ -19,14 +19,14 @@ func userExist(c *gin.Context) {
 func AddUser(c *gin.Context) {
 	var data model.User
 	_ = c.ShouldBindJSON(&data)
-	code = model.CheckUser(data.Username)
-	if code == errcode.SUCCESS {
+	msg = model.CheckUser(data.Username)
+	if msg == errcode.SUCCESS {
 		model.CreateUser(&data)
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"status": code,
+		"status": msg,
 		"data":   data,
-		"code":   errcode.GetErrMsg(code),
+		"msg":    errcode.GetErrMsg(msg),
 	})
 }
 
@@ -49,9 +49,9 @@ func GetUsers(c *gin.Context) {
 	}
 	data := model.GetUsers(pageSize, pageNum)
 	c.JSON(http.StatusOK, gin.H{
-		"status": code,
+		"status": msg,
 		"data":   data,
-		"code":   errcode.GetErrMsg(code),
+		"msg":    errcode.GetErrMsg(msg),
 	})
 }
 
