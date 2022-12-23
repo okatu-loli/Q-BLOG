@@ -44,7 +44,7 @@ func GetUsers(pageSize int, pageNum int) []User {
 	return users
 }
 
-// 编辑用户
+// EditUser 编辑用户
 func EditUser(id int, data User) int {
 	var user User
 	var maps = make(map[string]interface{})
@@ -57,7 +57,7 @@ func EditUser(id int, data User) int {
 	return errcode.SUCCESS
 }
 
-// 删除用户
+// DeleteUser 删除用户
 func DeleteUser(id int) int {
 	var user User
 	err3 := db.Where("id = ?", id).Delete(&user).Error
